@@ -1,54 +1,47 @@
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boîte de cookies</title>
-    <style>
-        /* Style CSS pour la boîte de cookies */
-        #cookie-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            display: none;
-        }
+  <meta charset="UTF-8">
+  <title>Convertisseur</title>
 
-        #cookie-container button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
 </head>
-<body>
 
-    <!-- Boîte de cookies -->
-    <div id="cookie-container">
-        <p>Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant, vous acceptez notre utilisation des cookies.</p>
-        <button onclick="accepterCookies()">J'accepte</button>
-    </div>
+<body onload="init()">
+<script>
+function init() {
+  document.getElementById("date").innerHTML = Date();
+}
 
-    <!-- Votre contenu de page va ici -->
+function Calcul() {
+  entier = Number(document.getElementById("entier").value);
+  if (document.getElementById("Wh").checked) {
+    	let Wh = entier*3600;
+   	document.getElementById("resultat").value = Wh;
+  }
+  if (document.getElementById("J").checked) {
+    	let J = entier/3600;
+    	document.getElementById("resultat").value = J;
 
-    <script>
-        // Fonction pour cacher la boîte de cookies et enregistrer la préférence de l'utilisateur
-        function accepterCookies() {
-            document.getElementById('cookie-container').style.display = 'none';
-            // Vous pouvez ajouter ici du code pour enregistrer la préférence de l'utilisateur, par exemple avec des cookies ou en utilisant une base de données.
-        }
+  }
+}	
+</script>
 
-        // Vérifier si l'utilisateur a déjà accepté les cookies (par exemple, en consultant un cookie préexistant)
-        // Si l'utilisateur n'a pas encore accepté les cookies, afficher la boîte de cookies.
-        if (document.cookie.indexOf('cookies_accepted') === -1) {
-            document.getElementById('cookie-container').style.display = 'block';
-        }
-    </script>
+  <p id="date"></p>
+
+  <h3>Convertir un entier en binaire et en hexadécimal</h3>
+
+  <p>Entier à convertir : <input type="text" size="5" id="entier" maxlength="5"></p>
+
+  <p>Cette page permet de convertir les Wh en J.</p>
+
+  <p>choisir ton unité :
+    <input type="radio" name="choix" id="Wh"> Wh
+    <input type="radio" name="choix" id="J"> Joul
+    <input type="button" onclick="Calcul()" value="Convertir">
+  </p>
+
+  <p>Résultat : <input type="text" size="10" id="resultat" disabled="disabled"></p>
 
 </body>
+
 </html>
