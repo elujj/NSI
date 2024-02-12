@@ -1,0 +1,161 @@
+import tkinter as tk
+import turtle
+from random import randint
+ 
+liste_de_mots = ["locution", "indeniable", "congru", "gladiateur", "trepasser", "fugasse", "morbide", "rudimentaire", "plante", "pittoresque"]
+
+
+root = tk.Tk()
+root.title("pendu")
+root.geometry("800x500")
+
+# Création de la toile Turtle
+canvas = turtle.ScrolledCanvas(root,width=550, height= 700)
+canvas.pack(side=tk.LEFT)
+
+# Création de l'objet TurtleScreen
+screen = turtle.TurtleScreen(canvas)
+
+# Création de la tortue
+turtle = turtle.RawTurtle(screen)
+
+# Création de la fenêtre de Tkinter
+frame = tk.Frame(root)
+frame.pack(side=tk.LEFT)
+
+def game():
+    bad_stats = 0
+    good_stats = 0
+    mot1 = liste_de_mots[randint(0, 9)]
+    mot = list(mot1)
+    graphique = len(mot)
+    matrice = ["_"] * graphique
+    lettres_entrées = []
+        
+        
+    def dessiner_pendu(): 
+        nonlocal bad_stats, good_stats
+        if bad_stats == 1:
+            turtle.penup()
+            turtle.goto(-100, -100)
+            turtle.pendown()
+            turtle.forward(200)
+
+        if bad_stats == 2:
+        
+            turtle.left(90)
+            turtle.forward(300)
+
+        if bad_stats == 3:
+
+            turtle.left(90)
+            turtle.forward(100)
+
+        if bad_stats == 4:
+            turtle.left(90)
+            turtle.forward(50)
+            turtle.right(90)
+
+        if bad_stats == 5:
+        
+            turtle.circle(25)
+
+        if bad_stats == 6:
+    
+            turtle.left(90)
+            turtle.penup()
+            turtle.forward(50)
+            turtle.pendown()
+            turtle.forward(25)
+        if bad_stats == 7:
+    
+            turtle.left(-45)
+            turtle.forward(50)
+            turtle.backward(50)
+
+        if bad_stats == 8:
+            turtle.left(90)
+            turtle.forward(50)
+            turtle.backward(50)
+            turtle.right(45)
+
+        if bad_stats == 9:
+        
+            turtle.forward(50)
+            turtle.right(45)
+            turtle.forward(50)
+            turtle.backward(50)
+
+        if bad_stats ==10:
+            turtle.left(90)
+            turtle.forward(50)
+            turtle.backward(50)
+            turtle.right(45)
+            
+            
+    def check_letter():
+        nonlocal bad_stats, good_stats
+        guess_lettre = entry.get()
+        entry.delete(0, tk.END) 
+ 
+ 
+        if bad_stats < 10 and good_stats < graphique and guess_lettre not in lettres_entrées:
+
+            if guess_lettre in mot and bad_stats < 10 and good_stats < graphique:
+                for element in mot:
+                    if element == guess_lettre and guess_lettre:
+                        lettres_entrées.append(guess_lettre)
+                        x = mot.index(element)
+                        good_stats += 1
+                        matrice[x] = guess_lettre
+                        matrice_label.config(text=" ".join(matrice))
+                        mot[x] = 0
+                if '_' not in matrice:
+                    result_label.config(text=f"Bravo, tu as gagné ! Le mot était: {''.join(mot1)}")
+            else:
+                if guess_lettre not in lettres_entrées :
+                    lettres_entrées.append(guess_lettre)
+                    bad_stats += 1
+                    dessiner_pendu()
+                if bad_stats == 10:
+                    result_label.config(text=f"T'ES NUL le mot était: {''.join(mot1)}")
+            if lettres_entrées.count(guess_lettre)>1:
+                del lettres_entrées[lettres_entrées.index(guess_lettre)]
+        points_label.config(text=f"win: {good_stats} lose: {bad_stats}")
+        lettres_entrées_label.config(text=" ".join(lettres_entrées))
+        
+
+
+
+    instruction_label = tk.Label(root, text="Quel est la lettre ?")
+    instruction_label.pack(pady=10)
+
+    entry = tk.Entry(root)
+    entry.pack(pady=10)
+
+    valider_button = tk.Button(root, text="Valider", command=check_letter)
+    valider_button.pack(pady=5)
+
+    matrice_label = tk.Label(root, text=" ".join(matrice))
+    matrice_label.pack(pady=10)
+
+    points_label = tk.Label(root, text=f"win: {good_stats} lose: {bad_stats}")
+    points_label.pack(pady=5)
+
+    resultat = tk.Label(root, text="")
+    resultat.pack(pady=10)
+    
+    instruction_label = tk.Label(root, text="lettres_entrées :")
+    instruction_label.pack(pady=10)
+    
+    lettres_entrées_label = tk.Label(root, text=" ".join(lettres_entrées))
+    lettres_entrées_label.pack(pady=26)
+    
+
+    
+    root.mainloop()
+    
+
+ 
+game()
+
